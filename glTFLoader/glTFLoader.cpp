@@ -269,67 +269,67 @@ namespace jcqt
 		loadImages ();
 	}
 	
-	Scene glTFLoader::getScene ( qsizetype idx ) const
+	const Scene& glTFLoader::getScene ( qsizetype idx ) const
 	{
 		return m_scenes [ idx ];
 	}
 	
-	Node glTFLoader::getNode ( qsizetype idx ) const
+	const Node& glTFLoader::getNode ( qsizetype idx ) const
 	{
 		return m_nodes [ idx ];
 	}
 	
-	Mesh glTFLoader::getMesh ( qsizetype idx ) const
+	const Mesh& glTFLoader::getMesh ( qsizetype idx ) const
 	{
 		return m_meshes [ idx ];
 	}
 	
-	Buffer glTFLoader::getBuffer ( qsizetype idx ) const
+	const Buffer& glTFLoader::getBuffer ( qsizetype idx ) const
 	{
 		return m_buffers [ idx ];
 	}
 	
-	BufferView glTFLoader::getBufferView ( qsizetype idx ) const
+	const BufferView& glTFLoader::getBufferView ( qsizetype idx ) const
 	{
 		return m_bufferViews [ idx ];
 	}
 	
-	Accessor glTFLoader::getAccessor ( qsizetype idx ) const
+	const Accessor& glTFLoader::getAccessor ( qsizetype idx ) const
 	{
 		return m_accessors [ idx ];
 	}
 	
-	Camera glTFLoader::getCamera ( qsizetype idx ) const
+	const Camera& glTFLoader::getCamera ( qsizetype idx ) const
 	{
 		return m_cameras [ idx ];
 	}
 	
-	Skin glTFLoader::getSkin ( qsizetype idx ) const
+	const Skin& glTFLoader::getSkin ( qsizetype idx ) const
 	{
 		return m_skins [ idx ];
 	}
 	
-	Animation glTFLoader::getAnimation ( qsizetype idx ) const
+	const Animation& glTFLoader::getAnimation ( qsizetype idx ) const
 	{
 		return m_animations [ idx ];
 	}
 	
-	Material glTFLoader::getMaterial ( qsizetype idx ) const
+	const Material& glTFLoader::getMaterial ( qsizetype idx ) const
 	{
 		return m_materials [ idx ];
 	}
 	
-	Texture glTFLoader::getTexture ( qsizetype idx ) const
+	const Texture& glTFLoader::getTexture ( qsizetype idx ) const
 	{
 		return m_textures [ idx ];
 	}
 	
-	Sampler glTFLoader::getSampler ( qsizetype idx ) const
+	const Sampler& glTFLoader::getSampler ( qsizetype idx ) const
 	{
 		return m_samplers [ idx ];
 	}
 	
-	Image glTFLoader::getImage ( qsizetype idx ) const
+	const Image& glTFLoader::getImage ( qsizetype idx ) const
 	{
 		return m_images [ idx ];
 	}

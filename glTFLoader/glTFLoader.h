@@ -84,19 +84,19 @@ namespace jcqt
 		void loadAll ();
 
 		// getters
-		Scene getScene ( qsizetype idx ) const;
-		Node getNode ( qsizetype idx ) const;
-		Mesh getMesh ( qsizetype idx ) const;
-		Buffer getBuffer ( qsizetype idx ) const;
-		BufferView getBufferView ( qsizetype idx ) const;
-		Accessor getAccessor ( qsizetype idx ) const;
-		Camera getCamera ( qsizetype idx ) const;
-		Skin getSkin ( qsizetype idx ) const;
-		Animation getAnimation ( qsizetype idx ) const;
-		Material getMaterial ( qsizetype idx ) const;
-		Texture getTexture ( qsizetype idx ) const;
-		Sampler getSampler ( qsizetype idx ) const;
-		Image getImage ( qsizetype idx ) const;
+		const Scene&		getScene ( qsizetype idx ) const;
+		const Node&			getNode ( qsizetype idx ) const;
+		const Mesh&			getMesh ( qsizetype idx ) const;
+		const Buffer&		getBuffer ( qsizetype idx ) const;
+		const BufferView&	getBufferView ( qsizetype idx ) const;
+		const Accessor&		getAccessor ( qsizetype idx ) const;
+		const Camera&		getCamera ( qsizetype idx ) const;
+		const Skin&			getSkin ( qsizetype idx ) const;
+		const Animation&	getAnimation ( qsizetype idx ) const;
+		const Material&		getMaterial ( qsizetype idx ) const;
+		const Texture&		getTexture ( qsizetype idx ) const;
+		const Sampler&		getSampler ( qsizetype idx ) const;
+		const Image&		getImage ( qsizetype idx ) const;
 
 		qsizetype sceneCount () const;
 		qsizetype nodeCount () const;
@@ -113,21 +113,21 @@ namespace jcqt
 		qsizetype imageCount () const;
 
 	private:
-		QJsonDocument m_document;
+		QJsonDocument		m_document;
 
-		QList<Scene> m_scenes;
-		QList<Node> m_nodes;
-		QList<Mesh> m_meshes;
-		QList<Buffer> m_buffers;
-		QList<BufferView> m_bufferViews;
-		QList<Accessor> m_accessors;
-		QList<Camera> m_cameras;
-		QList<Skin> m_skins;
-		QList<Animation> m_animations;
-		QList<Material> m_materials;
-		QList<Texture> m_textures;
-		QList<Sampler> m_samplers;
-		QList<Image> m_images;
+		QList<Scene>		m_scenes;
+		QList<Node>			m_nodes;
+		QList<Mesh>			m_meshes;
+		QList<Buffer>		m_buffers;
+		QList<BufferView>	m_bufferViews;
+		QList<Accessor>		m_accessors;
+		QList<Camera>		m_cameras;
+		QList<Skin>			m_skins;
+		QList<Animation>	m_animations;
+		QList<Material>		m_materials;
+		QList<Texture>		m_textures;
+		QList<Sampler>		m_samplers;
+		QList<Image>		m_images;
 	};
 }
 
