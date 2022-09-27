@@ -32,6 +32,7 @@ SOFTWARE.
 #include "gltfopenglscene_global.h"
 
 #include <QList>
+#include <QMap>
 
 #include <QOpenGLContext>
 #include <QSharedPointer>
@@ -77,10 +78,11 @@ namespace jcqt
 		static QSharedPointer<QOpenGLContext>	s_context;
 
 		QSharedPointer<glTFLoader>				m_loader;		
-//		QList<QOpenGLTexture>					m_textures;
 		QList<GLuint>							m_textures;
 		QList<GLuint>							m_vaos;
 		QList<GLuint>							m_vbos;
+
+		QMap<QString, GLuint>					m_attributeIndexMap;
 	};
 }
 

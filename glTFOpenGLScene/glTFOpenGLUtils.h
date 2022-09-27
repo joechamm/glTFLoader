@@ -35,7 +35,9 @@ SOFTWARE.
 
 namespace jcqt
 {
-	
+	// TODO: implement
+	// get the attribute index from the attribute name
+	quint32 getAttributeIndex ( const QString& attributeName );
 }
 
 #endif // !__GLTF_OPENGL_UTILS_H__

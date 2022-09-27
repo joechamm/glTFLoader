@@ -51,8 +51,8 @@ namespace jcqt
 
 	struct GLTFLOADER_EXPORT MeshPrimitive
 	{
-		qsizetype m_indicesIdx = 0; // index of the accessor that contains the vertex indices
-		qsizetype m_materialIdx = 0;
+		qsizetype m_indicesIdx = - 1 ; // index of the accessor that contains the vertex indices
+		qsizetype m_materialIdx = - 1; // index of the material to apply to primitive when rendering
 		ePrimitiveMode m_mode = ePrimitiveMode::ePrimitiveMode_TRIANGLES;
 		QJsonObject m_jsonObject;
 	};
