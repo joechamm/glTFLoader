@@ -30,17 +30,18 @@ namespace jcqt
 
 		auto funcs = QOpenGLVersionFunctionsFactory::get<QOpenGLFunctions_4_5_Core> ( s_context.data () );
 
-		qsizetype bufferCount = m_loader->bufferCount ();
-		m_vbos.resize ( bufferCount );
-		
-		funcs->glCreateBuffers ( bufferCount, m_vbos.data () );
+		qsizetype bufferViewCount = m_loader->bufferViewCount ();
 
-		for ( qsizetype i = 0; i < bufferCount; i++ )
+		m_vbos.resize ( bufferViewCount );
+		funcs->glCreateBuffers ( bufferViewCount, m_vbos.data () );
+
+		for ( qsizetype i = 0; i < bufferViewCount; i++ )
 		{
-			const Buffer& buff = m_loader->getBuffer ( i );
-			qsizetype bufferSize = buff.m_data.size ();
-			GLuint handle = m_vbos [ i ];
-			funcs->glNamedBufferStorage ( handle, bufferSize, buff.m_data.constData (), 0);
+			const BufferView& buffView = m_loader->getBufferView ( i );
+			const Buffer& buff = m_loader->getBuffer ( buffView.m_bufferIndex );
+
+			GLsizei size = ( GLsizei ) buffView.m_byteLength;
+			funcs->glNamedBufferStorage ( m_vbos [ i ], size, buff.m_data.constData () + buffView.m_byteOffset, 0 );
 		}
 
 		return true;
@@ -174,11 +175,9 @@ namespace jcqt
 
 				funcs->glTextureParameteri ( handle, GL_TEXTURE_MAX_LEVEL, mipLevels );
 
-				funcs->glTextureStorage2D ( handle, mipLevels, intrnFmt, (GLsizei)w, (GLsizei)h );
-	
+				funcs->glTextureStorage2D ( handle, mipLevels, intrnFmt, (GLsizei)w, (GLsizei)h );	
 			}
-		}
-		
+		}		
 	}
 
 	bool glTFOpenGLScene::loadVertexArrayObjects ()
@@ -215,9 +214,34 @@ namespace jcqt
 				if ( meshPrim.m_indicesIdx != -1 )
 				{
 					const Accessor& accessor = m_loader->getAccessor ( meshPrim.m_indicesIdx );
+					// If accessor type is not SCALAR, we throw an error per https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#reference-mesh-primitive
+					if ( accessor.m_type != eAccessorType::eType_SCALAR )
+					{
+						// TODO: implement error handling
+
+						return false;
+					}
+
+					// If the accessor bufferView is defined, grab the corresponding GPU buffer handle to set the ELEMENT_ARRAY buffer
 					if ( accessor.m_bufferViewIndex != -1 )
 					{
 						const BufferView& buffView = m_loader->getBufferView ( accessor.m_bufferViewIndex );
+						GLuint indexBufferHandle = m_vbos [ buffView.m_bufferIndex ];
+
+						funcs->glVertexArrayElementBuffer ( m_vaos [ vaoidx ], indexBufferHandle );
+					}
+					else if ( accessor.m_sparse.m_indices.m_bufferViewIndex != -1 )
+					{
+						const BufferView& buffView = m_loader->getBufferView ( accessor.m_sparse.m_indices.m_bufferViewIndex );
+						// Referenced buffer view MUST NOT have its target or byteStride properties defined. The buffer view and the optional byteOffset MUST be aligned to the componentType byte length per https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#reference-accessor-sparse-indices.
+						if ( eBufferViewTarget::eBufferViewTarget_ARRAY_BUFFER == buffView.m_target || 
+							eBufferViewTarget::eBufferViewTarget_ELEMENT_ARRAY_BUFFER == buffView.m_target ||
+							buffView.m_byteStride != - 1)
+						{
+							// TODO: error handling
+							return false;
+						}
+
 						GLuint indexBufferHandle = m_vbos [ buffView.m_bufferIndex ];
 
 						funcs->glVertexArrayElementBuffer ( m_vaos [ vaoidx ], indexBufferHandle );
@@ -230,6 +254,22 @@ namespace jcqt
 				{
 					qsizetype accessorIdx = jsonAttribs.value ( key ).toInteger();
 					const Accessor& accessor = m_loader->getAccessor ( accessorIdx );
+
+					GLenum type;
+					GLboolean normalized;
+					GLuint offset, bindIdx;
+					GLint size;
+					
+					// If bufferView is undefined, byteOffset MUST NOT be defined per https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#reference-accessor
+
+					// If the accessor buffer view is undefined, we'll check if the sparse values have been set, otherwise all values should be 0
+					if ( -1 == accessor.m_bufferViewIndex )
+					{
+						accessor.m_sparse.m_values.m_bufferViewIndex;
+						
+						
+					}
+					
 					
 					GLenum type = (GLenum)accessor.m_type;
 					GLboolean normalized = accessor.m_normalized;
@@ -275,6 +315,8 @@ namespace jcqt
 					funcs->glEnableVertexArrayAttrib ( m_vaos [ vaoidx ], attribIdx );
 					funcs->glVertexArrayAttribFormat ( m_vaos [ vaoidx ], attribIdx, size, type, normalized, offset );
 					funcs->glVertexArrayAttribBinding ( m_vaos [ vaoidx ], attribIdx, bindIdx );
+
+//					funcs->glVertexArrayVertexBuffer ( vaobj, bindingindex, buffer, offset, stride );
 					
 				}
 

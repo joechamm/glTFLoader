@@ -88,7 +88,7 @@ namespace jcqt
 	struct GLTFLOADER_EXPORT Accessor
 	{
 		qsizetype					m_bufferViewIndex = -1;
-		qsizetype					m_byteOffset = 0;
+		qsizetype					m_byteOffset = - 1;
 		eAccessorComponentType		m_componentType = eAccessorComponentType::eComponentType_INVALID;
 		qsizetype					m_count = -1;
 		eAccessorType				m_type = eAccessorType::eType_INVALID;
@@ -144,7 +144,7 @@ namespace jcqt
 	{
 		Accessor accessor;
 		accessor.m_bufferViewIndex = jsonObj.contains ( "bufferView" ) ? jsonObj.value ( "bufferView" ).toInteger () : -1;
-		accessor.m_byteOffset = jsonObj.contains ( "byteOffset" ) ? jsonObj.value ( "byteOffset" ).toInteger () : 0;
+		accessor.m_byteOffset = jsonObj.contains ( "byteOffset" ) ? jsonObj.value ( "byteOffset" ).toInteger () : - 1;
 
 		qint64 compType = jsonObj.value ( "componentType" ).toInteger ();
 		switch ( compType )

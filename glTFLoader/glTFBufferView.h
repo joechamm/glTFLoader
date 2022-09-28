@@ -60,7 +60,7 @@ namespace jcqt
 		bufferView.m_bufferIndex = jsonObj.value ( "buffer" ).toInteger ();
 		bufferView.m_byteLength = jsonObj.value ( "byteLength" ).toInteger ();
 		bufferView.m_byteOffset = jsonObj.contains ( "byteOffset" ) ? jsonObj.value ( "byteOffset" ).toInteger () : 0;
-		bufferView.m_byteStride = jsonObj.contains ( "byteStride" ) ? jsonObj.value ( "byteStride" ).toInteger () : 0;
+		bufferView.m_byteStride = jsonObj.contains ( "byteStride" ) ? jsonObj.value ( "byteStride" ).toInteger () : - 1;
 
 		quint64 target = jsonObj.contains ( "target" ) ? jsonObj.value ( "target" ).toInteger () : 0;
 		switch ( target )
